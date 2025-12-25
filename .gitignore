@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.cache/
+.DS_Store
+*.log
+.env
+.env.local
+.env.production
+.env.development
+.vercel
+coverage/
+vite.config.local.*
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+/.idea/
+/.vscode/

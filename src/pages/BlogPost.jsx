@@ -1,0 +1,210 @@
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Calendar, ArrowLeft, List, Clock, Tag } from 'lucide-react';
+import { motion } from 'framer-motion';
+import matter from 'gray-matter';
+import MarkdownRenderer from '../components/MarkdownRenderer';
+import posts from '../posts.json';
+
+export default function BlogPost() {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const [content, setContent] = useState('');
+  const [meta, setMeta] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [toc, setToc] = useState([]);
+  const [activeId, setActiveId] = useState('');
+
+  // Fetch Post Content
+  useEffect(() => {
+    const post = posts.find(p => p.id === slug);
+    if (!post) {
+      navigate('/blog');
+      return;
+    }
+
+    setMeta(post);
+
+    const fetchPath = new URL(`/posts/${post.filename}`, window.location.origin).href;
+
+    fetch(fetchPath)
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load post`);
+        return res.text();
+      })
+      .then(text => {
+        let rawContent = text;
+        if (text.startsWith('---')) {
+          try {
+            const parsed = matter(text);
+            rawContent = parsed.content;
+          } catch (error) { // Renamed 'e' to 'error' to be more descriptive and use it or ignore it properly
+             // Fallback: Remove first two --- blocks manually if parsing fails
+             console.warn("Frontmatter parsing failed", error);
+             const parts = text.split('---');
+             if (parts.length >= 3) rawContent = parts.slice(2).join('---').trim();
+          }
+        }
+        setContent(rawContent);
+        
+        // Generate TOC from raw content
+        const headings = rawContent.match(/^(#{1,3})\s+(.+)$/gm) || [];
+        const tocData = headings.map(heading => {
+          const level = heading.match(/^(#+)/)[0].length;
+          const text = heading.replace(/^#+\s+/, '').trim();
+          const id = text
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/^-+|-+$/g, '');
+          return { level, text, id };
+        });
+        setToc(tocData);
+        
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load markdown:", err);
+        setLoading(false);
+        setContent(`# 加载失败\n\n无法加载文章内容。`);
+      });
+  }, [slug, navigate]);
+
+  // Scroll Spy for TOC
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-100px 0px -60% 0px' }
+    );
+
+    const headingElements = document.querySelectorAll('h1, h2, h3');
+    headingElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [content]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-20 text-center">
+        <div className="animate-pulse text-xl text-gray-500">正在加载文章...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-950 pt-12 pb-24">
+      {/* Top Navigation */}
+      <div className="container mx-auto px-4 max-w-7xl mb-8">
+        <button 
+          onClick={() => navigate('/blog')}
+          className="inline-flex items-center gap-2 text-gray-500 hover:text-blue-600 transition-colors px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900"
+        >
+          <ArrowLeft size={20} /> 返回博客列表
+        </button>
+      </div>
+
+      <div className="container mx-auto px-4 max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-12">
+        {/* Main Content */}
+        <motion.article 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="lg:col-span-8 lg:col-start-1"
+        >
+          {meta && (
+            <header className="mb-12 pb-8 border-b border-gray-100 dark:border-gray-800">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
+                <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-bold">
+                  {meta.category || '未分类'}
+                </span>
+                <div className="flex items-center gap-1">
+                  <Calendar size={16} />
+                  <time>{meta.date}</time>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Clock size={16} />
+                  <span>5 分钟阅读</span>
+                </div>
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900 dark:text-white">
+                {meta.title}
+              </h1>
+              
+              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                {meta.description}
+              </p>
+            </header>
+          )}
+
+          <div className="prose prose-lg dark:prose-invert prose-blue max-w-none 
+            prose-headings:scroll-mt-24 
+            prose-headings:font-bold 
+            prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
+            prose-p:leading-relaxed prose-p:text-gray-600 dark:prose-p:text-gray-300
+            prose-li:text-gray-600 dark:prose-li:text-gray-300
+            prose-pre:bg-transparent prose-pre:p-0 prose-pre:m-0 prose-pre:border-0 prose-pre:shadow-none">
+            <MarkdownRenderer content={content} />
+          </div>
+        </motion.article>
+
+        {/* Sidebar TOC - Desktop Only */}
+        <aside className="hidden lg:block lg:col-span-4 relative">
+          <div className="sticky top-24">
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 border border-gray-100 dark:border-gray-800">
+              <div className="flex items-center gap-2 font-bold text-gray-900 dark:text-white mb-4 pb-4 border-b border-gray-200 dark:border-gray-800">
+                <List size={20} />
+                <span>目录</span>
+              </div>
+              
+              <nav className="flex flex-col gap-1 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
+                {toc.length > 0 ? toc.map((item, index) => (
+                  <a
+                    key={index}
+                    href={`#${item.id}`}
+                    className={`block py-1.5 px-3 text-sm rounded-lg transition-all duration-200 border-l-2 ${
+                      activeId === item.id
+                        ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-500 font-medium translate-x-1'
+                        : 'text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`}
+                    style={{ marginLeft: `${(item.level - 1) * 12}px` }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                      setActiveId(item.id);
+                    }}
+                  >
+                    {item.text}
+                  </a>
+                )) : (
+                  <p className="text-gray-400 text-sm italic">暂无目录</p>
+                )}
+              </nav>
+            </div>
+
+            {/* Share / Tags / Other widgets could go here */}
+            {meta && (
+              <div className="mt-6 bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
+                <h3 className="font-bold text-sm text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                  <Tag size={16} /> 标签
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {[meta.category, '技术', 'Web'].map((tag, i) => (
+                    <span key={i} className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs rounded-md">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code, Cpu, Globe, Zap, Github, Twitter, MapPin, Coffee, Mail, Star, FolderGit2, Quote } from 'lucide-react';
+import { ArrowRight, Code, Cpu, Globe, Zap, Github, Twitter, Calendar, Coffee, Mail, Star, FolderGit2, Quote } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const BentoItem = ({ children, className, delay = 0 }) => (
@@ -23,6 +23,57 @@ const TechIcon = ({ icon: Icon, color, label }) => (
     <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{label}</span>
   </div>
 );
+
+const MiniCalendar = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const today = now.getDate();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const weeks = ['日','一','二','三','四','五','六'];
+  const days = Array.from({ length: firstDay }, () => null).concat(
+    Array.from({ length: daysInMonth }, (_, i) => i + 1)
+  );
+
+  return (
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+            <Calendar size={22} />
+          </div>
+          <div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">当前月份</div>
+            <div className="font-bold text-gray-900 dark:text-white">{year}年{month + 1}月</div>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-7 gap-2 text-center">
+        {weeks.map((w) => (
+          <div key={w} className="text-xs font-medium text-gray-500 dark:text-gray-400">{w}</div>
+        ))}
+        {days.map((d, idx) => {
+          const isToday = d === today;
+          return (
+            <div
+              key={idx}
+              className={`h-8 flex items-center justify-center rounded-lg text-sm ${
+                d === null
+                  ? 'opacity-0'
+                  : isToday
+                  ? 'bg-blue-600 text-white font-bold'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              {d ?? ''}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 export default function Home() {
   return (
@@ -60,15 +111,8 @@ export default function Home() {
             </div>
           </BentoItem>
 
-          {/* 2. Map / Location (Top Right 1) */}
-          <BentoItem className="md:col-span-1 md:row-span-1 flex flex-col items-center justify-center text-center gap-4 bg-emerald-50 dark:bg-emerald-900/10" delay={0.1}>
-            <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-              <MapPin size={32} />
-            </div>
-            <div>
-              <h3 className="font-bold text-gray-900 dark:text-white">坐标</h3>
-              <p className="text-gray-500 dark:text-gray-400">中国 西安</p>
-            </div>
+          <BentoItem className="md:col-span-1 md:row-span-1" delay={0.1}>
+            <MiniCalendar />
           </BentoItem>
 
           {/* 3. Tech Stack Grid (Top Right 2) */}

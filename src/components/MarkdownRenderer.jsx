@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { Copy, Check } from 'lucide-react';
 
 // Helper to generate IDs from heading text
 const generateId = (children) => {
@@ -20,6 +21,26 @@ const generateId = (children) => {
     .replace(/^-+|-+$/g, ''); // Trim hyphens
 };
 
+const CopyButton = ({ text }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+      title="复制代码"
+    >
+      {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
+    </button>
+  );
+};
+
 export default function MarkdownRenderer({ content }) {
   if (!content) return null;
 
@@ -29,18 +50,21 @@ export default function MarkdownRenderer({ content }) {
       components={{
         code({  inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '');
+          const codeString = String(children).replace(/\n$/, '');
+
           return !inline && match ? (
             <div className="relative group rounded-xl overflow-hidden my-8 shadow-2xl bg-[#1e1e1e]">
               {/* Mac-style Window Header */}
-              <div className="absolute top-0 left-0 right-0 h-10 bg-[#252526] flex items-center px-4 border-b border-[#333] z-10 select-none">
+              <div className="absolute top-0 left-0 right-0 h-10 bg-[#252526] flex items-center px-4 border-b border-[#333] z-10 select-none justify-between">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
                   <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]" />
                   <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]" />
                 </div>
-                <div className="flex-1 text-center mr-14 font-mono text-xs text-gray-400">
+                <div className="font-mono text-xs text-gray-400 absolute left-1/2 transform -translate-x-1/2">
                   {match[1]}
                 </div>
+                <CopyButton text={codeString} />
               </div>
               
               {/* Code Content */}
@@ -66,7 +90,7 @@ export default function MarkdownRenderer({ content }) {
                   }}
                   {...props}
                 >
-                  {String(children).replace(/\n$/, '')}
+                  {codeString}
                 </SyntaxHighlighter>
               </div>
             </div>
@@ -80,9 +104,39 @@ export default function MarkdownRenderer({ content }) {
           );
         },
         // Custom Headings with IDs for TOC
-        h1: ({ ...props}) => <h1 id={generateId(props.children)} className="scroll-mt-24" {...props} />,
-        h2: ({ ...props}) => <h2 id={generateId(props.children)} className="scroll-mt-24" {...props} />,
-        h3: ({ ...props}) => <h3 id={generateId(props.children)} className="scroll-mt-24" {...props} />,
+        h1: ({ children, ...props}) => {
+          // ReactMarkdown passes children as array or string. We need to extract text for ID generation.
+          // But we want to render children as is (which might include other elements like code, strong etc)
+          // For ID generation we need plain text.
+          const getText = (node) => {
+             if (typeof node === 'string') return node;
+             if (Array.isArray(node)) return node.map(getText).join('');
+             if (node?.props?.children) return getText(node.props.children);
+             return '';
+          };
+          const text = getText(children);
+          return <h1 id={generateId(text)} className="scroll-mt-24" {...props}>{children}</h1>;
+        },
+        h2: ({ children, ...props}) => {
+          const getText = (node) => {
+             if (typeof node === 'string') return node;
+             if (Array.isArray(node)) return node.map(getText).join('');
+             if (node?.props?.children) return getText(node.props.children);
+             return '';
+          };
+          const text = getText(children);
+          return <h2 id={generateId(text)} className="scroll-mt-24" {...props}>{children}</h2>;
+        },
+        h3: ({ children, ...props}) => {
+          const getText = (node) => {
+             if (typeof node === 'string') return node;
+             if (Array.isArray(node)) return node.map(getText).join('');
+             if (node?.props?.children) return getText(node.props.children);
+             return '';
+          };
+          const text = getText(children);
+          return <h3 id={generateId(text)} className="scroll-mt-24" {...props}>{children}</h3>;
+        },
         
         // Styled Images
         img: ({ ...props}) => (

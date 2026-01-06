@@ -11,7 +11,7 @@ export default function Layout() {
       </main>
       <footer className="py-8 text-center text-gray-500 text-sm border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4">
-          <p className="mb-2">© {new Date().getFullYear()} ZfankSite. 构建于 React & Vite.</p>
+          <p className="mb-2">© {new Date().getFullYear()} ZfankSite. 用热爱诠释生活</p>
           <a 
             href="http://beian.miit.gov.cn/" 
             target="_blank" 

@@ -1,16 +1,21 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, ArrowRight, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Calendar, ArrowRight, Clock, Search } from 'lucide-react';
 import posts from '../posts.json';
 import { staggerContainer, fadeInUpItem } from '../utils/animations';
 
 export default function BlogList() {
-  const recentPosts = useMemo(() => {
-    return [...posts]
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
-      .slice(0, 5);
-  }, []);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredPosts = useMemo(() => {
+    return posts
+      .filter(post => 
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.description.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+  }, [searchQuery]);
 
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 py-20">
@@ -26,15 +31,31 @@ export default function BlogList() {
           <p className="text-gray-600 dark:text-gray-400 text-lg">
             分享技术心得、开发经验与生活随笔
           </p>
+          
+          {/* Search Bar */}
+          <div className="mt-8 max-w-xl mx-auto relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="text-gray-400" size={20} />
+            </div>
+            <input
+              type="text"
+              placeholder="搜索文章..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all shadow-sm text-gray-900 dark:text-white placeholder-gray-400"
+            />
+          </div>
         </div>
         
         <motion.div 
+          key={searchQuery} // Re-animate on search
           variants={staggerContainer(0.1)}
           initial="hidden"
           animate="show"
           className="space-y-8"
         >
-          {recentPosts.map((post) => (
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
             <motion.article 
               key={post.id}
               variants={fadeInUpItem}
@@ -79,7 +100,12 @@ export default function BlogList() {
                 </div>
               </div>
             </motion.article>
-          ))}
+          ))
+          ) : (
+            <div className="text-center py-20 text-gray-500">
+              没有找到相关文章
+            </div>
+          )}
         </motion.div>
 
         <motion.div 

@@ -93,12 +93,7 @@ export default function Home() {
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
                 你好, 我是 Zfank.
-                <br />
-                <span className="text-blue-200">全栈开发者.</span>
               </h1>
-              <p className="text-blue-100 text-lg max-w-md">
-                用代码、热情和一点魔法打造数字体验。
-              </p>
             </div>
             
             <div className="flex gap-4 mt-8 relative z-10">
@@ -174,41 +169,48 @@ export default function Home() {
              </div>
           </BentoItem>
 
-          {/* 7. Project Showcase (Bottom Right - Wide) */}
-          <BentoItem className="md:col-span-2 md:row-span-1 flex flex-row items-center gap-6 bg-indigo-50 dark:bg-indigo-900/10" delay={0.6}>
-            <div className="w-24 h-24 rounded-2xl bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
-              <FolderGit2 size={40} />
+          {/* 7. Featured Links (Bottom Right - Wide) */}
+          <BentoItem className="md:col-span-2 md:row-span-1 flex flex-col justify-center bg-indigo-50 dark:bg-indigo-900/10" delay={0.6}>
+            <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 mb-4 font-medium">
+               <Globe size={16} /> 精选链接
             </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 mb-2 font-medium">
-                 <Cpu size={16} /> 精选项目
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                个人博客系统
-              </h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">
-                使用 React + Vite + Tailwind CSS 构建的现代化博客。
-              </p>
-              <div className="flex gap-2">
-                <span className="px-2 py-1 rounded-md bg-white dark:bg-gray-800 text-xs font-medium text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-gray-700">React</span>
-                <span className="px-2 py-1 rounded-md bg-white dark:bg-gray-800 text-xs font-medium text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-gray-700">Vite</span>
-              </div>
+            <div className="flex flex-col gap-3">
+              <a 
+                href="https://www.haolin.online" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-gray-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors group/link"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                    <Globe size={18} />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900 dark:text-white text-sm">嵌入式学习空间</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">树莓派博客 · 机器人项目</div>
+                  </div>
+                </div>
+                <ArrowRight size={16} className="text-gray-400 group-hover/link:text-indigo-600 group-hover/link:translate-x-1 transition-all" />
+              </a>
+                            <a 
+                href="https://adorrain.github.io/go-study/#/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-gray-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors group/link"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+                    <Code size={18} />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900 dark:text-white text-sm">Go 后端学习文档</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">从零开始 · 简洁 & 高效</div>
+                  </div>
+                </div>
+                <ArrowRight size={16} className="text-gray-400 group-hover/link:text-indigo-600 group-hover/link:translate-x-1 transition-all" />
+              </a>
             </div>
-            <Link to="/projects" className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-sm text-indigo-600 group-hover:scale-110 transition-transform">
-               <ArrowRight size={20} />
-            </Link>
           </BentoItem>
-
-          {/* 8. Quote / Inspiration (Bottom - Optional Extra Row) */}
-           <BentoItem className="md:col-span-4 md:row-span-1 flex items-center justify-center bg-gray-900 text-white text-center py-8" delay={0.7}>
-              <div className="max-w-2xl">
-                <Quote size={32} className="text-gray-600 mx-auto mb-4" />
-                <p className="text-xl md:text-2xl font-serif italic text-gray-300 mb-4">
-                  "做伟大工作的唯一途径就是热爱你所做的事。"
-                </p>
-                <p className="text-sm text-gray-500 font-medium tracking-widest uppercase">史蒂夫·乔布斯</p>
-              </div>
-           </BentoItem>
 
         </div>
       </div>

@@ -1,5 +1,3 @@
-// Shared Framer Motion variants
-
 export const staggerContainer = (staggerDelay = 0.1) => ({
   hidden: { opacity: 0 },
   show: {

@@ -4,7 +4,6 @@ import { Buffer } from 'buffer'
 import './index.css'
 import App from './App.jsx'
 
-// Polyfill Buffer for the browser (required by gray-matter)
 globalThis.Buffer = Buffer
 
 createRoot(document.getElementById('root')).render(

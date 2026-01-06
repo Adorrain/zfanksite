@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, BookOpen, User, Menu, X, Grid, FolderGit2 } from 'lucide-react';
+import { Terminal, BookOpen, User, Menu, X, Grid, FolderGit2, Sun, Moon } from 'lucide-react';
 import clsx from 'clsx';
 
 const navItems = [
@@ -78,12 +78,14 @@ export default function Header() {
         </nav>
 
         {/* Mobile Menu Toggle */}
-        <button 
-          className="md:hidden p-2 text-gray-600 dark:text-gray-300"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X /> : <Menu />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button 
+            className="p-2 text-gray-600 dark:text-gray-300"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}

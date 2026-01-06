@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, ArrowLeft, List, Clock, Tag } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import matter from 'gray-matter';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import posts from '../posts.json';
@@ -9,24 +9,31 @@ import posts from '../posts.json';
 export default function BlogPost() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   const [content, setContent] = useState('');
-  const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toc, setToc] = useState([]);
   const [activeId, setActiveId] = useState('');
 
-  // Fetch Post Content
+  const meta = useMemo(() => posts.find(p => p.id === slug), [slug]);
+
+
   useEffect(() => {
-    const post = posts.find(p => p.id === slug);
-    if (!post) {
+    if (!meta) {
       navigate('/blog');
-      return;
     }
+  }, [meta, navigate]);
 
-    setMeta(post);
 
-    const fetchPath = new URL(`/posts/${post.filename}`, window.location.origin).href;
-
+  useEffect(() => {
+    if (!meta) return;
+    const fetchPath = new URL(`/posts/${meta.filename}`, window.location.origin).href;
     fetch(fetchPath)
       .then(res => {
         if (!res.ok) throw new Error(`Failed to load post`);
@@ -38,8 +45,7 @@ export default function BlogPost() {
           try {
             const parsed = matter(text);
             rawContent = parsed.content;
-          } catch (error) { // Renamed 'e' to 'error' to be more descriptive and use it or ignore it properly
-             // Fallback: Remove first two --- blocks manually if parsing fails
+          } catch (error) {
              console.warn("Frontmatter parsing failed", error);
              const parts = text.split('---');
              if (parts.length >= 3) rawContent = parts.slice(2).join('---').trim();
@@ -47,7 +53,6 @@ export default function BlogPost() {
         }
         setContent(rawContent);
         
-        // Generate TOC from raw content
         const headings = rawContent.match(/^(#{1,3})\s+(.+)$/gm) || [];
         const tocData = headings.map(heading => {
           const level = heading.match(/^(#+)/)[0].length;
@@ -68,7 +73,7 @@ export default function BlogPost() {
         setLoading(false);
         setContent(`# 加载失败\n\n无法加载文章内容。`);
       });
-  }, [slug, navigate]);
+  }, [meta]);
 
   // Scroll Spy for TOC
   useEffect(() => {
@@ -80,7 +85,7 @@ export default function BlogPost() {
           }
         });
       },
-      { rootMargin: '-100px 0px -60% 0px' }
+      { rootMargin: '0px 0px -80% 0px' }
     );
 
     const headingElements = document.querySelectorAll('h1, h2, h3');
@@ -98,8 +103,12 @@ export default function BlogPost() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 pt-12 pb-24">
-      {/* Top Navigation */}
+    <div className="min-h-screen bg-white dark:bg-gray-950 pt-12 pb-24 relative">
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-blue-600 origin-left z-50"
+        style={{ scaleX }}
+      />
+
       <div className="container mx-auto px-4 max-w-7xl mb-8">
         <button 
           onClick={() => navigate('/blog')}

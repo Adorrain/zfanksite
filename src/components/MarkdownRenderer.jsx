@@ -6,19 +6,17 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Copy, Check } from 'lucide-react';
 
-// Helper to generate IDs from heading text
 const generateId = (children) => {
   if (!children) return '';
-  // Flatten children if array, though usually strings for headings
   const text = Array.isArray(children) 
     ? children.map(child => (typeof child === 'string' ? child : '')).join('') 
     : (typeof children === 'string' ? children : '');
     
   return text
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove non-word chars
-    .replace(/\s+/g, '-')     // Replace spaces with hyphens
-    .replace(/^-+|-+$/g, ''); // Trim hyphens
+    .replace(/[^\w\s-]/g, '') 
+    .replace(/\s+/g, '-')   
+    .replace(/^-+|-+$/g, ''); 
 };
 
 const CopyButton = ({ text }) => {
@@ -53,7 +51,7 @@ export default function MarkdownRenderer({ content }) {
           const codeString = String(children).replace(/\n$/, '');
 
           return !inline && match ? (
-            <div className="relative group rounded-xl overflow-hidden my-8 shadow-2xl bg-[#1e1e1e]">
+            <div className="relative group rounded-xl overflow-hidden my-4 shadow-2xl bg-[#1e1e1e]">
               {/* Mac-style Window Header */}
               <div className="absolute top-0 left-0 right-0 h-10 bg-[#252526] flex items-center px-4 border-b border-[#333] z-10 select-none justify-between">
                 <div className="flex gap-2">
@@ -80,7 +78,7 @@ export default function MarkdownRenderer({ content }) {
                     padding: '1.5rem',
                     fontSize: '0.9em',
                     lineHeight: '1.6',
-                    backgroundColor: 'transparent', // Make transparent to avoid double background
+                    backgroundColor: 'transparent',
                   }}
                   lineNumberStyle={{
                     minWidth: '2.5em',
@@ -103,11 +101,7 @@ export default function MarkdownRenderer({ content }) {
             </code>
           );
         },
-        // Custom Headings with IDs for TOC
         h1: ({ children, ...props}) => {
-          // ReactMarkdown passes children as array or string. We need to extract text for ID generation.
-          // But we want to render children as is (which might include other elements like code, strong etc)
-          // For ID generation we need plain text.
           const getText = (node) => {
              if (typeof node === 'string') return node;
              if (Array.isArray(node)) return node.map(getText).join('');
@@ -167,7 +161,7 @@ export default function MarkdownRenderer({ content }) {
         // Styled Blockquotes
         blockquote: ({...props}) => (
           <blockquote 
-            className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 pl-6 py-4 my-8 rounded-r-lg italic text-gray-700 dark:text-gray-300 not-italic" 
+            className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 pl-6 py-3 my-4 rounded-r-lg italic text-gray-700 dark:text-gray-300 not-italic" 
             {...props} 
           />
         )

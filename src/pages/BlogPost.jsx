@@ -151,13 +151,16 @@ export default function BlogPost() {
             </header>
           )}
 
-          <div className="prose prose-lg dark:prose-invert prose-blue max-w-none 
+          <div className="prose prose-sm md:prose-base dark:prose-invert prose-blue max-w-none 
             prose-headings:scroll-mt-24 
-            prose-headings:font-bold 
-            prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
-            prose-p:leading-relaxed prose-p:text-gray-600 dark:prose-p:text-gray-300
-            prose-li:text-gray-600 dark:prose-li:text-gray-300
-            prose-pre:bg-transparent prose-pre:p-0 prose-pre:m-0 prose-pre:border-0 prose-pre:shadow-none">
+            prose-headings:font-bold prose-headings:tracking-tight
+            prose-h1:text-2xl prose-h1:mb-4
+            prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3
+            prose-h3:text-lg prose-h3:mt-4 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:my-2 prose-p:text-gray-600 dark:prose-p:text-gray-300
+            prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-li:my-0.5
+            prose-pre:bg-transparent prose-pre:p-0 prose-pre:m-0 prose-pre:border-0 prose-pre:shadow-none
+            prose-img:my-4 prose-hr:my-6">
             <MarkdownRenderer content={content} />
           </div>
         </motion.article>

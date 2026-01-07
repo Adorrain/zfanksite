@@ -5,7 +5,6 @@ import { ArrowRight, Hash } from 'lucide-react';
 import posts from '../posts.json';
 import { staggerContainer, scaleInItem } from '../utils/animations';
 
-// Get unique categories
 const categories = ['全部', ...new Set(posts.map(post => post.category))];
 
 export default function Categories() {
@@ -17,7 +16,6 @@ export default function Categories() {
 
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 py-20 relative overflow-hidden">
-      {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-blue-50 to-transparent dark:from-blue-900/10 pointer-events-none" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">

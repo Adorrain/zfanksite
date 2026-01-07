@@ -6,6 +6,7 @@ import BlogList from './pages/BlogList';
 import BlogPost from './pages/BlogPost';
 import Categories from './pages/Categories';
 import Projects from './pages/Projects';
+import ProjectDetail from './pages/ProjectDetail';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="projects/:id" element={<ProjectDetail />} />
           <Route path="blog" element={<BlogList />} />
           <Route path="blog/:slug" element={<BlogPost />} />
           <Route path="categories" element={<Categories />} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Twitter, Coffee, MapPin, Briefcase, GraduationCap, Code2, Database, Palette, Terminal } from 'lucide-react';
+import { Mail, Github, Twitter, Code2, Database, Terminal } from 'lucide-react';
 
 const SkillPill = ({ icon: Icon, label }) => (
   <div className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code, Cpu, Globe, Zap, Github, Twitter, Calendar, Coffee, Mail, Star, FolderGit2, Quote } from 'lucide-react';
+import { ArrowRight, Code, Cpu, Globe, Zap, Github, Twitter, Calendar, Coffee, Mail, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const BentoItem = ({ children, className, delay = 0 }) => (
@@ -92,7 +92,11 @@ export default function Home() {
                 Open to work
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-                你好, 我是 Zfank.
+                <br />
+                Zfank
+                <br />
+                <br />
+                只是一个分享知识的
               </h1>
             </div>
             

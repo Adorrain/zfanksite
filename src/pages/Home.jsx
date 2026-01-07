@@ -155,23 +155,22 @@ export default function Home() {
           </BentoItem>
 
           {/* 6. Latest Post (Bottom Left - Wide) */}
-          <BentoItem className="md:col-span-2 md:row-span-1 flex flex-col justify-center relative overflow-hidden group" delay={0.5}>
-             <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-rose-50 dark:from-orange-900/10 dark:to-rose-900/10 opacity-50" />
-             <div className="relative z-10">
-               <div className="flex items-center gap-2 text-orange-600 dark:text-orange-400 mb-2 font-medium">
-                 <Star size={16} fill="currentColor" /> 精选文章
-               </div>
-               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-orange-600 transition-colors">
-                 Markdown 语法指南与演示
-               </h3>
-               <p className="text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">
-                 本文全面演示了本博客的 Markdown 渲染能力，包括代码高亮、表格、引用等各种语法效果。
-               </p>
-               <Link to="/blog/hello-world" className="text-sm font-bold text-orange-600 dark:text-orange-400 flex items-center gap-1 hover:gap-2 transition-all">
-                 阅读文章 <ArrowRight size={16} />
-               </Link>
-             </div>
-          </BentoItem>
+          <BentoItem
+              className="md:col-span-2 md:row-span-1 relative overflow-hidden group"
+              delay={0.5}
+            >
+              <span className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-yellow-400 to-orange-500 opacity-70 group-hover:opacity-100 transition-opacity" />
+
+              <div className="flex flex-col justify-center h-full px-6">
+                <blockquote className="text-lg md:text-xl font-medium italic leading-relaxed text-gray-800 dark:text-gray-200">
+                  “代码就像幽默。当你必须解释它时，它就糟糕了。”
+                </blockquote>
+
+                <span className="mt-4 text-sm text-gray-500 dark:text-gray-400 self-end">
+                  — Cory House
+                </span>
+              </div>
+            </BentoItem>
 
           {/* 7. Featured Links (Bottom Right - Wide) */}
           <BentoItem className="md:col-span-2 md:row-span-1 flex flex-col justify-center bg-indigo-50 dark:bg-indigo-900/10" delay={0.6}>

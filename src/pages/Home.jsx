@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code, Cpu, Globe, Zap, Github, Twitter, Calendar, Coffee, Mail, Star } from 'lucide-react';
+import { ArrowRight, Code, Cpu, Globe, Zap, Github, Twitter, Calendar, Coffee, Mail, Star, Pin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import posts from '../posts.json';
 
 const BentoItem = ({ children, className, delay = 0 }) => (
   <motion.div
@@ -76,6 +77,8 @@ const MiniCalendar = () => {
 };
 
 export default function Home() {
+  const pinnedPost = posts.find(p => p.id === 'hello-world') || posts[0];
+
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 bg-gray-50/50 dark:bg-gray-950">
       <div className="container mx-auto max-w-7xl">
@@ -154,22 +157,36 @@ export default function Home() {
             </div>
           </BentoItem>
 
-          {/* 6. Latest Post (Bottom Left - Wide) */}
+          {/* 6. Pinned Post (Bottom Left - Wide) */}
           <BentoItem
-              className="md:col-span-2 md:row-span-1 relative overflow-hidden group"
+              className="md:col-span-2 md:row-span-1 relative overflow-hidden group p-0"
               delay={0.5}
             >
-              <span className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-yellow-400 to-orange-500 opacity-70 group-hover:opacity-100 transition-opacity" />
+              <Link to={`/blog/${pinnedPost.id}`} className="flex flex-col justify-center h-full px-6 py-6 w-full relative z-10">
+                 <div className="absolute top-4 right-4 p-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                    <Pin className="text-blue-500 transform rotate-45" size={20} fill="currentColor" />
+                 </div>
+                 <span className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-blue-500 to-purple-500 opacity-70 group-hover:opacity-100 transition-opacity" />
+                 
+                 <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded-md">
+                      置顶
+                    </span>
+                    <span className="text-xs text-gray-500">{pinnedPost.date}</span>
+                 </div>
 
-              <div className="flex flex-col justify-center h-full px-6">
-                <blockquote className="text-lg md:text-xl font-medium italic leading-relaxed text-gray-800 dark:text-gray-200">
-                  “代码就像幽默。当你必须解释它时，它就糟糕了。”
-                </blockquote>
-
-                <span className="mt-4 text-sm text-gray-500 dark:text-gray-400 self-end">
-                  — Cory House
-                </span>
-              </div>
+                 <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">
+                   {pinnedPost.title}
+                 </h3>
+                 
+                 <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-3">
+                   {pinnedPost.description}
+                 </p>
+                 
+                 <div className="flex items-center text-blue-600 text-sm font-bold mt-auto">
+                   阅读文章 <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                 </div>
+               </Link>
             </BentoItem>
 
           {/* 7. Featured Links (Bottom Right - Wide) */}

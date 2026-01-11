@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, Clock, Search } from 'lucide-react';
+import { Calendar, ArrowRight, Clock, Search, Pin } from 'lucide-react';
 import posts from '../posts.json';
 import { staggerContainer, fadeInUpItem } from '../utils/animations';
 
@@ -14,7 +14,11 @@ export default function BlogList() {
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.description.toLowerCase().includes(searchQuery.toLowerCase())
       )
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
+      .sort((a, b) => {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        return new Date(b.date) - new Date(a.date);
+      });
   }, [searchQuery]);
 
   return (
@@ -66,6 +70,12 @@ export default function BlogList() {
 
               <div className="relative z-10">
                 <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                  {post.pinned && (
+                    <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-bold mr-2">
+                      <Pin size={14} fill="currentColor" />
+                      <span>置顶</span>
+                    </div>
+                  )}
                   <span className="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full font-bold text-xs tracking-wide uppercase">
                     {post.category || '博客'}
                   </span>

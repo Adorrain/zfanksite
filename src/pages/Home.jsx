@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Code, Cpu, Globe, Zap, Github, Twitter, Calendar, Coffee, Mail, Star, Pin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import posts from '../posts.json';
+import { HorizontalClock } from '../components/clock';
 
 const BentoItem = ({ children, className, delay = 0 }) => (
   <motion.div
@@ -104,8 +105,8 @@ export default function Home() {
             </div>
             
             <div className="flex gap-4 mt-8 relative z-10">
-              <Link to="/about" className="px-6 py-3 bg-white text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-colors">
-                关于我
+              <Link to={`/blog/${pinnedPost.id}`} className="px-6 py-3 bg-white text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-colors">
+                关于站点
               </Link>
               <Link to="/blog" className="px-6 py-3 bg-blue-700/50 text-white rounded-xl font-bold hover:bg-blue-700/70 transition-colors backdrop-blur-sm flex items-center gap-2">
                 阅读博客 <ArrowRight size={18} />
@@ -117,16 +118,9 @@ export default function Home() {
             <MiniCalendar />
           </BentoItem>
 
-          {/* 3. Tech Stack Grid (Top Right 2) */}
-          <BentoItem className="md:col-span-1 md:row-span-1" delay={0.2}>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-4">技术栈</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <TechIcon icon={Code} color="text-blue-500" label="React" />
-              <TechIcon icon={Zap} color="text-yellow-500" label="Vite" />
-              <TechIcon icon={Globe} color="text-cyan-500" label="Tailwind" />
-              <TechIcon icon={Cpu} color="text-green-500" label="Node" />
-            </div>
-          </BentoItem>
+        <BentoItem className="md:col-span-1 md:row-span-1 flex items-center justify-center">
+          <HorizontalClock />
+        </BentoItem>
 
           {/* 4. Github Stats (Middle Right 1) */}
           <BentoItem className="md:col-span-1 md:row-span-1 flex flex-col justify-between bg-gray-900 text-white border-gray-800" delay={0.3}>

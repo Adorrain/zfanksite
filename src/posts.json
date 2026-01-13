@@ -1,11 +1,11 @@
 [
   {
-    "id": "hello-world",
-    "title": "Markdown 语法指南与演示",
+    "id": "me",
+    "title": "站点介绍",
     "date": "2025-12-25",
-    "description": "本博客 Markdown 渲染能力的全面指南，包括代码高亮、表格、引用等。",
+    "description": "介绍本站点的相关知识，促进你我的交流",
     "filename": "hello-world.md",
-    "category": "指南",
+    "category": "关于站点",
     "pinned": true
   },
   {

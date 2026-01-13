@@ -7,7 +7,6 @@ import BlogPost from './pages/BlogPost';
 import Categories from './pages/Categories';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
-import About from './pages/About';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -21,7 +20,6 @@ function App() {
           <Route path="blog" element={<BlogList />} />
           <Route path="blog/:slug" element={<BlogPost />} />
           <Route path="categories" element={<Categories />} />
-          <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -9,7 +9,6 @@ const navItems = [
   { path: '/projects', label: '项目', icon: FolderGit2 },
   { path: '/categories', label: '分类', icon: Grid },
   { path: '/blog', label: '博客', icon: BookOpen },
-  { path: '/about', label: '关于', icon: User },
 ];
 
 export default function Header() {

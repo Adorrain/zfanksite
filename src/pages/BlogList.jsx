@@ -35,8 +35,7 @@ export default function BlogList() {
           <p className="text-gray-600 dark:text-gray-400 text-lg">
             分享技术心得、开发经验与生活随笔
           </p>
-          
-          {/* Search Bar */}
+
           <div className="mt-8 max-w-xl mx-auto relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Search className="text-gray-400" size={20} />
@@ -52,7 +51,7 @@ export default function BlogList() {
         </div>
         
         <motion.div 
-          key={searchQuery} // Re-animate on search
+          key={searchQuery} 
           variants={staggerContainer(0.1)}
           initial="hidden"
           animate="show"
@@ -65,7 +64,6 @@ export default function BlogList() {
               variants={fadeInUpItem}
               className="group relative bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
-              {/* Decorative gradient blob */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-colors" />
 
               <div className="relative z-10">

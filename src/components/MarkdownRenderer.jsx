@@ -64,8 +64,7 @@ export default function MarkdownRenderer({ content }) {
                 </div>
                 <CopyButton text={codeString} />
               </div>
-              
-              {/* Code Content */}
+
               <div className="pt-10 overflow-x-auto">
                 <SyntaxHighlighter
                   style={vscDarkPlus}
@@ -131,8 +130,7 @@ export default function MarkdownRenderer({ content }) {
           const text = getText(children);
           return <h3 id={generateId(text)} className="scroll-mt-24" {...props}>{children}</h3>;
         },
-        
-        // Styled Images
+
         img: ({ ...props}) => (
           <figure className="my-10">
             <img 
@@ -147,8 +145,7 @@ export default function MarkdownRenderer({ content }) {
             )}
           </figure>
         ),
-        
-        // Styled Links
+
         a: ({ ...props}) => (
           <a 
             className="text-blue-600 dark:text-blue-400 hover:underline decoration-2 underline-offset-2 font-medium transition-colors" 
@@ -157,8 +154,7 @@ export default function MarkdownRenderer({ content }) {
             rel="noopener noreferrer" 
           />
         ),
-        
-        // Styled Blockquotes
+
         blockquote: ({...props}) => (
           <blockquote 
             className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 pl-6 py-3 my-4 rounded-r-lg italic text-gray-700 dark:text-gray-300 not-italic" 

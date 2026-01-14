@@ -36,8 +36,7 @@ export default function Categories() {
             按主题浏览所有文章
           </motion.p>
         </div>
-        
-        {/* Category Pills */}
+
         <div className="flex flex-wrap gap-3 justify-center mb-16 max-w-3xl mx-auto">
           {categories.map(category => (
             <button
@@ -62,7 +61,6 @@ export default function Categories() {
           ))}
         </div>
 
-        {/* Posts Grid */}
         <motion.div 
           layout
           variants={staggerContainer(0.05)}

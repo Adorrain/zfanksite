@@ -75,7 +75,6 @@ export default function BlogPost() {
       });
   }, [meta]);
 
-  // Scroll Spy for TOC
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -119,7 +118,6 @@ export default function BlogPost() {
       </div>
 
       <div className="container mx-auto px-4 max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Main Content */}
         <motion.article 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -165,7 +163,6 @@ export default function BlogPost() {
           </div>
         </motion.article>
 
-        {/* Sidebar TOC - Desktop Only */}
         <aside className="hidden lg:block lg:col-span-4 relative">
           <div className="sticky top-24">
             <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 border border-gray-100 dark:border-gray-800">
@@ -199,7 +196,6 @@ export default function BlogPost() {
               </nav>
             </div>
 
-            {/* Share / Tags / Other widgets could go here */}
             {meta && (
               <div className="mt-6 bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
                 <h3 className="font-bold text-sm text-gray-900 dark:text-white mb-3 flex items-center gap-2">

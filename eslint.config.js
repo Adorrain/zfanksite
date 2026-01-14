@@ -31,7 +31,7 @@ export default defineConfig([
       },
     },
     rules: {
-      'react/prop-types': 'off', // Disable prop-types as we might not use them everywhere
+      'react/prop-types': 'off', 
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },

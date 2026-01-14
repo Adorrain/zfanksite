@@ -8,7 +8,6 @@ import { projects } from '../data/projects';
 export default function Projects() {
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 py-20 relative overflow-hidden">
-      {/* 背景  */}
       <div className="absolute top-0 right-0 w-full h-96 bg-gradient-to-b from-purple-50 to-transparent dark:from-purple-900/10 pointer-events-none" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">

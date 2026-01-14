@@ -84,8 +84,7 @@ export default function Home() {
     <div className="min-h-screen pt-24 pb-12 px-4 bg-gray-50/50 dark:bg-gray-950">
       <div className="container mx-auto max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[minmax(180px,auto)]">
-          
-          {/* 1. Hero Card - Large (Top Left) */}
+
           <BentoItem className="md:col-span-2 md:row-span-2 flex flex-col justify-between bg-gradient-to-br from-blue-600 to-purple-700 text-white border-none relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full blur-2xl -ml-12 -mb-12 pointer-events-none" />
@@ -122,7 +121,6 @@ export default function Home() {
           <HorizontalClock />
         </BentoItem>
 
-          {/* 4. Github Stats (Middle Right 1) */}
           <BentoItem className="md:col-span-1 md:row-span-1 flex flex-col justify-between bg-gray-900 text-white border-gray-800" delay={0.3}>
             <div className="flex justify-between items-start">
               <Github size={32} className="text-gray-400" />
@@ -135,7 +133,6 @@ export default function Home() {
             <a href="https://github.com/Adorrain" target="_blank" rel="noreferrer" className="absolute inset-0" />
           </BentoItem>
 
-          {/* 5. Social / Contact (Middle Right 2) */}
           <BentoItem className="md:col-span-1 md:row-span-1 flex flex-col items-center justify-center gap-6" delay={0.4}>
             <h3 className="font-bold text-gray-900 dark:text-white">保持联系</h3>
             <div className="flex gap-4">
@@ -151,7 +148,6 @@ export default function Home() {
             </div>
           </BentoItem>
 
-          {/* 6. Pinned Post (Bottom Left - Wide) */}
           <BentoItem
               className="md:col-span-2 md:row-span-1 relative overflow-hidden group p-0"
               delay={0.5}
@@ -183,7 +179,6 @@ export default function Home() {
                </Link>
             </BentoItem>
 
-          {/* 7. Featured Links (Bottom Right - Wide) */}
           <BentoItem className="md:col-span-2 md:row-span-1 flex flex-col justify-center bg-indigo-50 dark:bg-indigo-900/10" delay={0.6}>
             <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 mb-4 font-medium">
                <Globe size={16} /> 精选链接

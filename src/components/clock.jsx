@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-/* 单个时间块 */
 function TimeBlock({ value, className = "" }) {
   return (
     <div
@@ -19,7 +18,6 @@ function TimeBlock({ value, className = "" }) {
   );
 }
 
-/* 冒号分隔符 */
 function Separator() {
   return (
     <div
@@ -49,7 +47,6 @@ export  function HorizontalClock() {
   return (
     <div className="relative inline-flex items-center justify-center">
 
-      {/* 左耳朵 */}
       <div
         className="
           absolute -top-2 left-5
@@ -60,7 +57,6 @@ export  function HorizontalClock() {
         "
       />
 
-      {/* 右耳朵 */}
       <div
         className="
           absolute -top-2 right-5
@@ -71,7 +67,6 @@ export  function HorizontalClock() {
         "
       />
 
-      {/* 钟表主体 */}
       <div
         className="
           flex items-center gap-2

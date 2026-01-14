@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Github, ExternalLink, Calendar, Star } from 'lucide-react';
+import { ArrowLeft, Github, ExternalLink, Star } from 'lucide-react';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import { projects } from '../data/projects';
 

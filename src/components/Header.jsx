@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, BookOpen, User, Menu, X, Grid, FolderGit2, Sun, Moon } from 'lucide-react';
+import { Terminal, BookOpen, Menu, X, Grid, FolderGit2,  } from 'lucide-react';
 import clsx from 'clsx';
 
 const navItems = [
@@ -45,7 +45,6 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Desktop Nav */}
         <nav className="hidden md:flex gap-1 bg-white/50 dark:bg-gray-800/50 p-1 rounded-full border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -76,7 +75,6 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Mobile Menu Toggle */}
         <div className="flex items-center gap-2 md:hidden">
           <button 
             className="p-2 text-gray-600 dark:text-gray-300"
@@ -87,7 +85,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div

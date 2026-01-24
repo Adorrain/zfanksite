@@ -5,19 +5,7 @@ import remarkUnwrapImages from 'remark-unwrap-images';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Copy, Check } from 'lucide-react';
-
-const generateId = (children) => {
-  if (!children) return '';
-  const text = Array.isArray(children) 
-    ? children.map(child => (typeof child === 'string' ? child : '')).join('') 
-    : (typeof children === 'string' ? children : '');
-    
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '') 
-    .replace(/\s+/g, '-')   
-    .replace(/^-+|-+$/g, ''); 
-};
+import { generateId } from '../utils/slugify';
 
 const CopyButton = ({ text }) => {
   const [copied, setCopied] = useState(false);
@@ -41,6 +29,7 @@ const CopyButton = ({ text }) => {
 
 export default function MarkdownRenderer({ content }) {
   if (!content) return null;
+  const getHeadingId = (text) => generateId(text) || 'section';
 
   return (
     <ReactMarkdown
@@ -108,7 +97,7 @@ export default function MarkdownRenderer({ content }) {
              return '';
           };
           const text = getText(children);
-          return <h1 id={generateId(text)} className="scroll-mt-24" {...props}>{children}</h1>;
+          return <h1 id={getHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h1>;
         },
         h2: ({ children, ...props}) => {
           const getText = (node) => {
@@ -118,7 +107,7 @@ export default function MarkdownRenderer({ content }) {
              return '';
           };
           const text = getText(children);
-          return <h2 id={generateId(text)} className="scroll-mt-24" {...props}>{children}</h2>;
+          return <h2 id={getHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h2>;
         },
         h3: ({ children, ...props}) => {
           const getText = (node) => {
@@ -128,7 +117,7 @@ export default function MarkdownRenderer({ content }) {
              return '';
           };
           const text = getText(children);
-          return <h3 id={generateId(text)} className="scroll-mt-24" {...props}>{children}</h3>;
+          return <h3 id={getHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h3>;
         },
 
         img: ({ ...props}) => (

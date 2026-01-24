@@ -4,10 +4,10 @@ function TimeBlock({ value, className = "" }) {
   return (
     <div
       className={`
-        min-w-[48px] px-3 py-2 rounded-xl
-        bg-white/70 dark:bg-white/10
-        backdrop-blur
-        text-2xl font-semibold text-gray-900 dark:text-white
+        min-w-[42px] px-2 py-2 rounded-xl
+        bg-white dark:bg-zinc-800
+        border border-zinc-200 dark:border-white/5
+        text-2xl font-bold text-zinc-900 dark:text-white
         shadow-sm
         [font-variant-numeric:tabular-nums]
         ${className}
@@ -22,15 +22,16 @@ function Separator() {
   return (
     <div
       className="
-        text-2xl font-semibold text-gray-400 px-1
+        text-2xl font-bold text-zinc-300 dark:text-zinc-600 px-0.5
         animate-pulse select-none
       "
     >
+      :
     </div>
   );
 }
 
-export  function HorizontalClock() {
+export function HorizontalClock() {
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -46,41 +47,19 @@ export  function HorizontalClock() {
 
   return (
     <div className="relative inline-flex items-center justify-center">
-
       <div
         className="
-          absolute -top-2 left-5
-          w-4 h-4 rounded-full
-          bg-gradient-to-br from-slate-200 to-slate-400
-          dark:from-slate-600 dark:to-slate-800
-          shadow-sm
-        "
-      />
-
-      <div
-        className="
-          absolute -top-2 right-5
-          w-4 h-4 rounded-full
-          bg-gradient-to-br from-slate-200 to-slate-400
-          dark:from-slate-600 dark:to-slate-800
-          shadow-sm
-        "
-      />
-
-      <div
-        className="
-          flex items-center gap-2
+          flex items-center gap-1
           px-4 py-3 rounded-2xl
-          bg-gradient-to-r from-slate-100 to-slate-50
-          dark:from-slate-800 dark:to-slate-900
-          shadow-inner
+          bg-zinc-50 dark:bg-zinc-900/50
+          border border-zinc-100 dark:border-white/5
         "
       >
         <TimeBlock value={h} />
         <Separator />
         <TimeBlock value={m} />
         <Separator />
-        <TimeBlock value={s} className="opacity-75" />
+        <TimeBlock value={s} className="opacity-50" />
       </div>
     </div>
   );

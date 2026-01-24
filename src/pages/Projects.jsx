@@ -7,7 +7,7 @@ import { projects } from '../data/projects';
 
 export default function Projects() {
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 py-20 relative overflow-hidden">
+    <div className="min-h-screen bg-zinc-50/50 dark:bg-black py-20 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-full h-96 bg-gradient-to-b from-purple-50 to-transparent dark:from-purple-900/10 pointer-events-none" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
@@ -46,11 +46,11 @@ export default function Projects() {
               >
                 <motion.div
                   variants={fadeInUpItem}
-                  className="group relative bg-white dark:bg-gray-900 rounded-[2rem] p-1 shadow-xl shadow-gray-200/50 dark:shadow-black/20 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full"
+                  className="group relative bg-white dark:bg-zinc-900 rounded-[2rem] p-1 shadow-3d hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 transition-all duration-500 hover:-translate-y-2 h-full border border-zinc-100 dark:border-white/10"
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-10 rounded-[2rem] transition-opacity duration-500`} />
                   
-                  <div className="bg-white dark:bg-gray-900 rounded-[1.8rem] p-8 h-full flex flex-col relative z-10">
+                  <div className="bg-white dark:bg-zinc-900 rounded-[1.8rem] p-8 h-full flex flex-col relative z-10">
                     <div className="flex justify-between items-start mb-8">
                       <div className={`p-4 rounded-2xl bg-gradient-to-br ${project.color} text-white shadow-lg`}>
                         <Icon size={32} />

@@ -22,7 +22,7 @@ export default function BlogList() {
   }, [searchQuery]);
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 py-20">
+    <div className="min-h-screen bg-zinc-50/50 dark:bg-black py-20">
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-16">
           <motion.h1 
@@ -45,7 +45,7 @@ export default function BlogList() {
               placeholder="搜索文章..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all shadow-sm text-gray-900 dark:text-white placeholder-gray-400"
+              className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all shadow-3d hover:shadow-2xl text-gray-900 dark:text-white placeholder-gray-400"
             />
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function BlogList() {
             <motion.article 
               key={post.id}
               variants={fadeInUpItem}
-              className="group relative bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              className="group relative bg-white dark:bg-zinc-900 rounded-3xl p-8 shadow-3d border border-zinc-100 dark:border-white/10 hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-colors" />
 
@@ -83,7 +83,7 @@ export default function BlogList() {
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock size={14} />
-                    <span>5 min read</span>
+                    <span>预计 5 分钟</span>
                   </div>
                 </div>
 
@@ -122,7 +122,7 @@ export default function BlogList() {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <Link to="/categories" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-bold shadow-md hover:shadow-lg hover:-translate-y-1 transition-all border border-gray-100 dark:border-gray-700">
+          <Link to="/categories" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white dark:bg-zinc-900 text-gray-900 dark:text-white font-bold shadow-3d hover:shadow-2xl hover:-translate-y-1 transition-all border border-zinc-100 dark:border-white/10">
             查看所有分类文章 <ArrowRight size={18} />
           </Link>
         </motion.div>

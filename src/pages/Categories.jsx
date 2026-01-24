@@ -15,7 +15,7 @@ export default function Categories() {
     : posts.filter(post => post.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 py-20 relative overflow-hidden">
+    <div className="min-h-screen bg-zinc-50/50 dark:bg-black py-20 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-blue-50 to-transparent dark:from-blue-900/10 pointer-events-none" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
@@ -44,8 +44,8 @@ export default function Categories() {
               onClick={() => setActiveCategory(category)}
               className={`px-5 py-2.5 rounded-2xl font-medium transition-all duration-300 flex items-center gap-2 relative overflow-hidden ${
                 activeCategory === category 
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30 scale-105' 
-                  : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-800'
+                  ? 'bg-blue-600 text-white shadow-3d scale-105' 
+                  : 'bg-white dark:bg-zinc-900 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 shadow-3d hover:shadow-2xl'
               }`}
             >
               {category !== '全部' && <Hash size={14} className="opacity-50" />}
@@ -77,7 +77,7 @@ export default function Categories() {
                 initial="hidden"
                 animate="show"
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group"
+                className="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-3d border border-zinc-100 dark:border-white/10 hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group"
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="px-3 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-bold uppercase tracking-wider">

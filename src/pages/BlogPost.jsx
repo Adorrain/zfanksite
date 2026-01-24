@@ -5,6 +5,7 @@ import { motion, useScroll, useSpring } from 'framer-motion';
 import matter from 'gray-matter';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import posts from '../posts.json';
+import { generateId } from '../utils/slugify';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -57,11 +58,7 @@ export default function BlogPost() {
         const tocData = headings.map(heading => {
           const level = heading.match(/^(#+)/)[0].length;
           const text = heading.replace(/^#+\s+/, '').trim();
-          const id = text
-            .toLowerCase()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/^-+|-+$/g, '');
+          const id = generateId(text) || 'section';
           return { level, text, id };
         });
         setToc(tocData);
@@ -102,7 +99,7 @@ export default function BlogPost() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 pt-12 pb-24 relative">
+    <div className="min-h-screen bg-zinc-50 dark:bg-black pt-12 pb-24 relative">
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-blue-600 origin-left z-50"
         style={{ scaleX }}
@@ -165,7 +162,7 @@ export default function BlogPost() {
 
         <aside className="hidden lg:block lg:col-span-4 relative">
           <div className="sticky top-24">
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 border border-gray-100 dark:border-gray-800">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-white/10 shadow-3d hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 transition-shadow duration-300">
               <div className="flex items-center gap-2 font-bold text-gray-900 dark:text-white mb-4 pb-4 border-b border-gray-200 dark:border-gray-800">
                 <List size={20} />
                 <span>目录</span>
@@ -197,7 +194,7 @@ export default function BlogPost() {
             </div>
 
             {meta && (
-              <div className="mt-6 bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
+              <div className="mt-6 bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-white/10 shadow-3d hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 transition-shadow duration-300">
                 <h3 className="font-bold text-sm text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                   <Tag size={16} /> 标签
                 </h3>

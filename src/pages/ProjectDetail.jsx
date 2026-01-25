@@ -35,7 +35,7 @@ export default function ProjectDetail() {
         animate={{ opacity: 1, y: 0 }}
         className="container mx-auto px-4 max-w-4xl"
       >
-        <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-white/10 shadow-3d hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 transition-shadow duration-300 p-8 md:p-10">
+        <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-white/10 shadow-sm hover:shadow-md transition-shadow duration-300 p-8 md:p-10">
           <header className="mb-10 pb-8 border-b border-gray-100 dark:border-gray-800">
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <div className={`p-3 rounded-2xl bg-gradient-to-br ${project.color || 'from-blue-500 to-cyan-500'} text-white shadow-lg`}>
@@ -56,7 +56,7 @@ export default function ProjectDetail() {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 text-white hover:bg-gray-800 transition-colors font-medium shadow-3d"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 text-white hover:bg-gray-800 transition-colors font-medium shadow-sm"
                 >
                   <Github size={20} />
                   查看源码
@@ -67,7 +67,7 @@ export default function ProjectDetail() {
                   href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-3d"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-sm"
                 >
                   <ExternalLink size={20} />
                   在线预览

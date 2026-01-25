@@ -81,10 +81,6 @@ export default function BlogList() {
                     <Calendar size={14} />
                     <time>{post.date}</time>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Clock size={14} />
-                    <span>预计 5 分钟</span>
-                  </div>
                 </div>
 
                 <Link to={`/blog/${post.id}`} className="block group-hover:text-blue-600 transition-colors">
@@ -122,7 +118,7 @@ export default function BlogList() {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <Link to="/categories" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white dark:bg-zinc-900 text-gray-900 dark:text-white font-bold shadow-3d hover:shadow-2xl hover:-translate-y-1 transition-all border border-zinc-100 dark:border-white/10">
+          <Link to="/categories" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white dark:bg-zinc-900 text-gray-900 dark:text-white font-bold shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all border border-zinc-100 dark:border-white/10">
             查看所有分类文章 <ArrowRight size={18} />
           </Link>
         </motion.div>

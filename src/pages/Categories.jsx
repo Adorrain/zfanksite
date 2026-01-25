@@ -77,7 +77,7 @@ export default function Categories() {
                 initial="hidden"
                 animate="show"
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-3d border border-zinc-100 dark:border-white/10 hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group"
+                className="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-zinc-100 dark:border-white/10 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col h-full group"
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="px-3 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-bold uppercase tracking-wider">

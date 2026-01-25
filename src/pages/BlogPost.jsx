@@ -21,8 +21,11 @@ export default function BlogPost() {
   const [loading, setLoading] = useState(true);
   const [toc, setToc] = useState([]);
   const [activeId, setActiveId] = useState('');
+  const [frontmatter, setFrontmatter] = useState({});
 
   const meta = useMemo(() => posts.find(p => p.id === slug), [slug]);
+  
+  const postData = { ...meta, ...frontmatter };
 
 
   useEffect(() => {
@@ -46,10 +49,27 @@ export default function BlogPost() {
           try {
             const parsed = matter(text);
             rawContent = parsed.content;
+            setFrontmatter(parsed.data);
           } catch (error) {
-             console.warn("Frontmatter parsing failed", error);
+             console.warn("Frontmatter parsing failed, trying manual parsing", error);
              const parts = text.split('---');
-             if (parts.length >= 3) rawContent = parts.slice(2).join('---').trim();
+             if (parts.length >= 3) {
+                rawContent = parts.slice(2).join('---').trim();
+                const fmLines = parts[1].split('\n');
+                const manualData = {};
+                fmLines.forEach(line => {
+                    const match = line.match(/^\s*([a-zA-Z0-9_]+):\s*(.+)$/);
+                    if (match) {
+                        let key = match[1].trim();
+                        let value = match[2].trim();
+                        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+                            value = value.slice(1, -1);
+                        }
+                        manualData[key] = value;
+                    }
+                });
+                setFrontmatter(manualData);
+             }
           }
         }
         setContent(rawContent);
@@ -120,28 +140,24 @@ export default function BlogPost() {
           animate={{ opacity: 1, y: 0 }}
           className="lg:col-span-8 lg:col-start-1"
         >
-          {meta && (
+          {postData && (
             <header className="mb-12 pb-8 border-b border-gray-100 dark:border-gray-800">
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
                 <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-bold">
-                  {meta.category || '未分类'}
+                  {postData.category || '未分类'}
                 </span>
                 <div className="flex items-center gap-1">
                   <Calendar size={16} />
-                  <time>{meta.date}</time>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Clock size={16} />
-                  <span>5 分钟阅读</span>
+                  <time>{postData.date}</time>
                 </div>
               </div>
               
               <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900 dark:text-white">
-                {meta.title}
+                {postData.title}
               </h1>
               
               <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
-                {meta.description}
+                {postData.description}
               </p>
             </header>
           )}
@@ -193,17 +209,27 @@ export default function BlogPost() {
               </nav>
             </div>
 
-            {meta && (
+            {postData && (
               <div className="mt-6 bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-white/10 shadow-3d hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 transition-shadow duration-300">
                 <h3 className="font-bold text-sm text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                   <Tag size={16} /> 标签
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {[meta.category, '技术', 'Web'].map((tag, i) => (
-                    <span key={i} className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs rounded-md">
-                      #{tag}
-                    </span>
-                  ))}
+                  {(() => {
+                    const tags = postData.tags 
+                      ? (Array.isArray(postData.tags) 
+                          ? postData.tags 
+                          : String(postData.tags).split(/[,，]/).map(t => t.trim()).filter(Boolean))
+                      : [];
+                      
+                    return tags.length > 0 ? tags.map((tag, i) => (
+                      <span key={i} className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs rounded-md">
+                        #{tag}
+                      </span>
+                    )) : (
+                      <span className="text-gray-400 text-xs">暂无标签</span>
+                    );
+                  })()}
                 </div>
               </div>
             )}

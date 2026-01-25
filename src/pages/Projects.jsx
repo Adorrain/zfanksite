@@ -46,7 +46,7 @@ export default function Projects() {
               >
                 <motion.div
                   variants={fadeInUpItem}
-                  className="group relative bg-white dark:bg-zinc-900 rounded-[2rem] p-1 shadow-3d hover:shadow-2xl hover:shadow-zinc-300/60 dark:hover:shadow-black/70 transition-all duration-500 hover:-translate-y-2 h-full border border-zinc-100 dark:border-white/10"
+                  className="group relative bg-white dark:bg-zinc-900 rounded-[2rem] p-1 shadow-sm hover:shadow-md transition-all duration-500 hover:-translate-y-1 h-full border border-zinc-100 dark:border-white/10"
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-10 rounded-[2rem] transition-opacity duration-500`} />
                   

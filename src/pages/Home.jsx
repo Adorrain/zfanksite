@@ -9,8 +9,8 @@ const BentoItem = ({ children, className, delay = 0 }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay, ease: "easeOut" }}
-    whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.2 } }}
-    className={`group relative bg-white dark:bg-[#0A0A0A] rounded-3xl p-6 border border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 transition-all duration-300 overflow-hidden shadow-3d hover:shadow-2xl hover:shadow-zinc-300/50 dark:hover:shadow-black/70 ${className}`}
+    whileHover={{ y: -2, transition: { duration: 0.2 } }}
+    className={`group relative bg-white dark:bg-[#0A0A0A] rounded-3xl p-6 border border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md ${className}`}
   >
     {children}
   </motion.div>
@@ -51,7 +51,7 @@ export default function Home() {
                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">数字现实。</span>
                  </h1>
                  <p className="text-xl text-zinc-500 dark:text-zinc-400 max-w-2xl mb-8 leading-relaxed">
-                   你好，我是 Zfank。我致力于构建无障碍、像素完美且高性能的 Web 体验。
+                   你好，我是 Zfank；
                    热衷于开源项目和现代技术栈探索。
                  </p>
                  
@@ -143,17 +143,8 @@ export default function Home() {
                   <Terminal size={20} />
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-zinc-900 dark:text-white">个人作品集</div>
-                  <div className="text-xs text-zinc-500">React + Vite</div>
-                </div>
-              </Link>
-              <Link to="/projects" className="flex items-center gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors group/item shadow-sm hover:shadow-md border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700">
-                <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 group-hover/item:scale-110 transition-transform shadow-sm">
-                  <Cpu size={20} />
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-zinc-900 dark:text-white">IoT 控制台</div>
-                  <div className="text-xs text-zinc-500">Go + MQTT</div>
+                  <div className="text-sm font-bold text-zinc-900 dark:text-white">近期没有啥作品</div>
+                  <div className="text-xs text-zinc-500">...</div>
                 </div>
               </Link>
             </div>

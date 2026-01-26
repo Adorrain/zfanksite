@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Calendar, ArrowLeft, List, Clock, Tag } from 'lucide-react';
+import { Calendar, ArrowLeft, List, Clock, Tag, ChevronDown, ChevronRight } from 'lucide-react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import matter from 'gray-matter';
 import MarkdownRenderer from '../components/MarkdownRenderer';
@@ -75,11 +75,21 @@ export default function BlogPost() {
         setContent(rawContent);
         
         const headings = rawContent.match(/^(#{1,3})\s+(.+)$/gm) || [];
+        let lastH2Id = null;
+        
         const tocData = headings.map(heading => {
           const level = heading.match(/^(#+)/)[0].length;
           const text = heading.replace(/^#+\s+/, '').trim();
           const id = generateId(text) || 'section';
-          return { level, text, id };
+          
+          let parentId = null;
+          if (level === 2) {
+            lastH2Id = id;
+          } else if (level === 3) {
+            parentId = lastH2Id;
+          }
+          
+          return { level, text, id, parentId };
         });
         setToc(tocData);
         
@@ -185,27 +195,45 @@ export default function BlogPost() {
               </div>
               
               <nav className="flex flex-col gap-1 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
-                {toc.length > 0 ? toc.map((item, index) => (
-                  <a
-                    key={index}
-                    href={`#${item.id}`}
-                    className={`block py-1.5 px-3 text-sm rounded-lg transition-all duration-200 border-l-2 ${
-                      activeId === item.id
-                        ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-500 font-medium translate-x-1'
-                        : 'text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
-                    }`}
-                    style={{ marginLeft: `${(item.level - 1) * 12}px` }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
-                      setActiveId(item.id);
-                    }}
-                  >
-                    {item.text}
-                  </a>
-                )) : (
-                  <p className="text-gray-400 text-sm italic">暂无目录</p>
-                )}
+                {(() => {
+                  const activeItem = toc.find(t => t.id === activeId);
+                  const activeParentId = activeItem?.level === 3 ? activeItem.parentId : (activeItem?.level === 2 ? activeItem.id : null);
+                  
+                  return toc.length > 0 ? toc.map((item, index) => {
+                    const isVisible = item.level <= 2 || (item.level === 3 && item.parentId === activeParentId);
+                    
+                    if (!isVisible) return null;
+                    const hasChildren = item.level === 2 && toc.some(t => t.parentId === item.id);
+                    const isExpanded = item.level === 2 && activeParentId === item.id;
+
+                    return (
+                      <a
+                        key={index}
+                        href={`#${item.id}`}
+                        className={`group flex items-center justify-between py-1.5 px-3 text-sm rounded-lg transition-all duration-200 border-l-2 ${
+                          activeId === item.id
+                            ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-500 font-medium translate-x-1'
+                            : 'text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+                        }`}
+                        style={{ paddingLeft: `${(item.level - 1) * 12 + 12}px` }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                          setActiveId(item.id);
+                        }}
+                      >
+                        <span className="truncate">{item.text}</span>
+                        {hasChildren && (
+                          <span className={`text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}>
+                            <ChevronRight size={14} />
+                          </span>
+                        )}
+                      </a>
+                    );
+                  }) : (
+                    <p className="text-gray-400 text-sm italic">暂无目录</p>
+                  );
+                })()}
               </nav>
             </div>
 

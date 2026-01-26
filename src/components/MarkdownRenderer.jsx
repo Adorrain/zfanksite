@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkUnwrapImages from 'remark-unwrap-images';
+import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Copy, Check } from 'lucide-react';
@@ -34,53 +35,58 @@ export default function MarkdownRenderer({ content }) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm, remarkUnwrapImages]}
+      rehypePlugins={[rehypeRaw]}
       components={{
-        code({  inline, className, children, ...props }) {
+        code({ inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '');
+          const language = match ? match[1] : 'text';
           const codeString = String(children).replace(/\n$/, '');
+          const isBlock = match || inline === false;
 
-          return !inline && match ? (
-            <div className="relative group rounded-xl overflow-hidden my-4 shadow-2xl bg-[#1e1e1e]">
-              {/* Mac-style Window Header */}
-              <div className="absolute top-0 left-0 right-0 h-10 bg-[#252526] flex items-center px-4 border-b border-[#333] z-10 select-none justify-between">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
-                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]" />
-                  <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]" />
+          if (isBlock) {
+            return (
+              <div className="relative group rounded-xl overflow-hidden my-6 shadow-2xl bg-[#1e1e1e]">                <div className="absolute top-0 left-0 right-0 h-10 bg-[#252526] flex items-center px-4 border-b border-[#333] z-10 select-none justify-between">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]" />
+                    <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]" />
+                  </div>
+                  <div className="font-mono text-xs text-gray-400 absolute left-1/2 transform -translate-x-1/2">
+                    {language}
+                  </div>
+                  <CopyButton text={codeString} />
                 </div>
-                <div className="font-mono text-xs text-gray-400 absolute left-1/2 transform -translate-x-1/2">
-                  {match[1]}
-                </div>
-                <CopyButton text={codeString} />
-              </div>
 
-              <div className="pt-10 overflow-x-auto">
-                <SyntaxHighlighter
-                  style={vscDarkPlus}
-                  language={match[1]}
-                  PreTag="div"
-                  showLineNumbers={true}
-                  wrapLines={true}
-                  customStyle={{
-                    margin: 0,
-                    padding: '1.5rem',
-                    fontSize: '0.9em',
-                    lineHeight: '1.6',
-                    backgroundColor: 'transparent',
-                  }}
-                  lineNumberStyle={{
-                    minWidth: '2.5em',
-                    paddingRight: '1em',
-                    color: '#6e7681',
-                    textAlign: 'right'
-                  }}
-                  {...props}
-                >
-                  {codeString}
-                </SyntaxHighlighter>
+                <div className="pt-10 overflow-x-auto">
+                  <SyntaxHighlighter
+                    style={vscDarkPlus}
+                    language={language}
+                    PreTag="div"
+                    showLineNumbers={true}
+                    wrapLines={true}
+                    customStyle={{
+                      margin: 0,
+                      padding: '1.5rem',
+                      fontSize: '0.9em',
+                      lineHeight: '1.6',
+                      backgroundColor: 'transparent',
+                    }}
+                    lineNumberStyle={{
+                      minWidth: '2.5em',
+                      paddingRight: '1em',
+                      color: '#6e7681',
+                      textAlign: 'right'
+                    }}
+                    {...props}
+                  >
+                    {codeString}
+                  </SyntaxHighlighter>
+                </div>
               </div>
-            </div>
-          ) : (
+            );
+          }
+
+          return (
             <code 
               className="bg-gray-100 dark:bg-gray-800 text-pink-600 dark:text-pink-400 px-1.5 py-0.5 rounded font-mono text-sm border border-gray-200 dark:border-gray-700" 
               {...props}

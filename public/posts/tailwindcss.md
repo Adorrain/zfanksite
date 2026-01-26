@@ -3,7 +3,7 @@ title: "TailwindCSS"
 date: "2026-01-10"
 description: "TailwindCSS入门"
 category: "前端"
-tags: "技术, Web, Tailwind"
+tags: "Web, Tailwind"
 ---
 
 # TailwindCSS 介绍

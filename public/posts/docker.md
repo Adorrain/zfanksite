@@ -392,8 +392,6 @@ docker compose命令大全：https://www.quanxiaoha.com/docker/docker-compose-co
 
 [docker实战web](https://www.quanxiaoha.com/docker/docker-compose-example.html)
 
-![命令大全(来源:www.quanxiaoha.com)](https://img.quanxiaoha.com/quanxiaoha/166255773325089)
-
 附：（1）Windows安装Docker：https://www.runoob.com/docker/windows-docker-install.html
 
 （2）Mac安装Docker：https://www.runoob.com/docker/macos-docker-install.html

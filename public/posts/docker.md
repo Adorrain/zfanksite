@@ -14,6 +14,8 @@ Docker 是一个**开源的平台**，我们**可以用 Docker 来开发、部�
 
 Docker 是一种轻量级的虚拟化技术，目的和虚拟机一样，都是为了创造“隔离环境”。但是它不像 VM 采用操作系统级的资源隔离，容器采用的是进程级的系统隔离。
 
+<img src="../../assets/docker.png" alt="docker" className="w-1/2 mx-auto" />
+
 Docker 容器具有以下三大特点：
 
 - 轻量化：一台主机上运行的多个 Docker 容器可以共享主机操作系统内核；启动迅速，只需占用很少的计算和内存资源。
@@ -21,8 +23,6 @@ Docker 容器具有以下三大特点：
 - 安全可靠：Docker 赋予应用的隔离性不仅限于彼此隔离，还独立于底层的基础设施。Docker 默认提供最强的隔离，因此应用出现问题，也只是单个容器的问题，而不会波及到整台主机
 
 > Docker 其实是一个**轻量级的虚拟化技术**。**Docker 可以让开发者在构建应用时，将应用与其依赖的环境一起打包到一个可移植的容器中**, 然后很方便地发布到任意操作系统中
-
-![](https://www.runoob.com/wp-content/uploads/2016/07/docker-architecture.webp)
 
 (1)Docker Client :Docker Client 通过命令用于和 Docker Daemon 交互
 
@@ -107,6 +107,8 @@ docker image prune     --清理没用的镜像文件，-a删除所有没有被�
 通过镜像运行的实例为容器，Docker利用容器运行应用，每个容器都是相互隔离的，可以把容器看作是一个轻量级的Linux运行环境
 
 容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的命名空间。因此容器可以拥有自己的 <code>root</code> 文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID 空间。容器内的进程是运行在一个隔离的环境里，使用起来，就好像是在一个独立于宿主的系统下操作一样。
+
+<img src="../../assets/k8s-docker.png" alt="k8s-docker" className="mx-auto" />
 
 镜像使用的是分层存储，容器也是如此。每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层，我们可以称这个为容器运行时读写而准备的存储层为**容器存储层**,随着容器的销毁，容器存储层也会销毁
 
@@ -232,7 +234,7 @@ a262c79688e8       training/postgres    "/docker-entrypoint.   33 seconds ago   
 容器启动后，使用了 <code>tar</code> 命令来将 dbdata 数据卷备份为容器中 /backup/backup.tar 文件，因为挂载了的关系，宿主机的当前目录下也会生成 <code>backup.tar</code> 备份文件
 
 ```bash
-$ sudo docker run --volumes-from dbdata -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /dbdata
+sudo docker run --volumes-from dbdata -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /dbdata
 ```
 
 ##### 恢复/迁移
@@ -240,20 +242,20 @@ $ sudo docker run --volumes-from dbdata -v $(pwd):/backup ubuntu tar cvf /backup
 如果要恢复数据到一个容器，首先创建一个带有空数据卷的容器 dbdata2
 
 ```bash
-$ sudo docker run -v /dbdata --name dbdata2 ubuntu /bin/bash
+sudo docker run -v /dbdata --name dbdata2 ubuntu /bin/bash
 ```
 
 然后创建另一个容器，挂载 dbdata2 容器卷中的数据卷，并使用 <code>tar</code> 解压备份文件到挂载的容器卷中
 
 ```bash
-$ sudo docker run --volumes-from dbdata2 -v $(pwd):/backup busybox tar xvf
+sudo docker run --volumes-from dbdata2 -v $(pwd):/backup busybox tar xvf
 /backup/backup.tar
 ```
 
 为了查看/验证恢复的数据，可以再启动一个容器挂载同样的容器卷来查看
 
 ```bash
-$ sudo docker run --volumes-from dbdata2 busybox /bin/ls /dbdata
+sudo docker run --volumes-from dbdata2 busybox /bin/ls /dbdata
 ```
 
 ### 6.Dockerfile
@@ -261,6 +263,8 @@ $ sudo docker run --volumes-from dbdata2 busybox /bin/ls /dbdata
 Dockerfile 可以清楚的看到镜像每一层的构建指令，从而判断该镜像是否安全可靠
 
 通过 Dockerfile 构建镜像时，如果发现本地存在可以重复利用的 layer，就不会重复下载，这样可以节省存储空间
+
+![docker镜像分层结构](../assets/docker-mirror.png)
 
 #### 制作镜像
 
@@ -319,7 +323,7 @@ docker build -t nginx:test .
 $env:DOCKER_BUILDKIT=0
 export DOCKER_BUILDKIT=0
 
-$ docker build -t hello-world https://github.com/docker-library/hello-world.git#master:amd64/hello-world
+docker build -t hello-world https://github.com/docker-library/hello-world.git#master:amd64/hello-world
 
 Step 1/3 : FROM scratch
  --->
@@ -338,7 +342,7 @@ Successfully built 038ad4142d2b
 ##### 通过 tar 压缩包构建镜像
 
 ```bash
-$ docker build http://server/context.tar.gz
+docker build http://server/context.tar.gz
 ```
 
 如果给定的 URL 是个 <code>tar</code> 压缩包，那么 Docker 会自动下载这个压缩包，并自动解压，以其作为上下文开始构建
@@ -355,7 +359,7 @@ docker build - < Dockerfile
 ##### 从标准输入中读取上下文压缩包进行构建
 
 ```bash
-$ docker build - < context.tar.gz
+docker build - < context.tar.gz
 ```
 
 标准输入模式下，如果传入的是压缩文件，如 <code>tar.gz</code> 、<code>gzip</code> 、 <code>bzip2</code> 等，Docker 会解压该压缩包，并进入到里面，将里面视为上下文，然后开始构建
@@ -388,7 +392,7 @@ docker compose命令大全：https://www.quanxiaoha.com/docker/docker-compose-co
 
 [docker实战web](https://www.quanxiaoha.com/docker/docker-compose-example.html)
 
-![命令大全](https://img.quanxiaoha.com/quanxiaoha/166255773325089)
+![命令大全(来源:www.quanxiaoha.com)](https://img.quanxiaoha.com/quanxiaoha/166255773325089)
 
 附：（1）Windows安装Docker：https://www.runoob.com/docker/windows-docker-install.html
 

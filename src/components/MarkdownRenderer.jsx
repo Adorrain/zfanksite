@@ -6,6 +6,7 @@ import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Copy, Check } from 'lucide-react';
+import { twMerge } from 'tailwind-merge';
 import { generateId } from '../utils/slugify';
 
 const CopyButton = ({ text }) => {
@@ -45,7 +46,8 @@ export default function MarkdownRenderer({ content }) {
 
           if (isBlock) {
             return (
-              <div className="relative group rounded-xl overflow-hidden my-6 shadow-2xl bg-[#1e1e1e]">                <div className="absolute top-0 left-0 right-0 h-10 bg-[#252526] flex items-center px-4 border-b border-[#333] z-10 select-none justify-between">
+              <div className="code-block relative group rounded-xl overflow-hidden my-6 shadow-lg bg-[#1e1e1e]">
+                <div className="absolute top-0 left-0 right-0 h-10 bg-[#252526] flex items-center px-4 border-b border-[#333] z-10 select-none justify-between">
                   <div className="flex gap-2">
                     <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
                     <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]" />
@@ -126,13 +128,15 @@ export default function MarkdownRenderer({ content }) {
           return <h3 id={getHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h3>;
         },
 
-        img: ({ ...props}) => (
+        img: ({ className, ...props}) => (
           <figure className="my-10">
-            <img 
-              className="rounded-2xl shadow-lg w-full object-cover max-h-[600px]" 
-              {...props} 
-              alt={props.alt || ''} 
-            />
+            <div>
+              <img 
+                className={twMerge("rounded-2xl shadow-lg w-full object-cover max-h-[600px]", className)}
+                {...props} 
+                alt={props.alt || ''} 
+              />
+            </div>
             {props.alt && (
               <figcaption className="text-center text-gray-500 text-sm mt-3 italic">
                 {props.alt}

@@ -6,6 +6,16 @@
     @apply bg-zinc-50 dark:bg-[#050505] text-zinc-900 dark:text-zinc-100 font-sans antialiased selection:bg-blue-500/30;
   }
 
+  .code-block ::selection {
+    background: rgba(148, 163, 184, 0.12);
+    color: #FAFAFA;
+  }
+
+  .dark .code-block ::selection {
+    background: rgba(148, 163, 184, 0.12);
+    color: #FAFAFA;
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
   }

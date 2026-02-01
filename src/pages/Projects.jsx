@@ -101,10 +101,6 @@ export default function Projects() {
                       </div>
 
                       <div className="pt-6 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-sm text-gray-500 font-medium">
-                        <div className="flex items-center gap-2">
-                          <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                          <span>{project.stars} Stars</span>
-                        </div>
                         <span className="text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
                           查看详情 →
                         </span>

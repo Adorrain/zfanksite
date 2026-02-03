@@ -7,7 +7,7 @@ category: "关于站点"
 
 # 你好 👋
 
-整个网站的底层是AI搭建出来的，你可以在[这里](https://github.com/zfank/zfanksite)查看源代码。
+整个网站的底层是AI搭建出来的，你可以在[这里](https://github.com/Adorrain/zfanksite)查看源代码。
 
 构建网站的目的也是将我自己的一些知识合并在一起方便查阅，整体搬迁工作还在ing...
 
